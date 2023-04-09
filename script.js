@@ -31,7 +31,7 @@ const backspace = () => {
 
 const percent = () => {
   if (
-    (flag === 'sum' && currentNumString) ||
+    (flag === 'plus' && currentNumString) ||
     (flag === 'minus' && currentNumString)
   ) {
     currentNumString = `${(currentNumString * savedNumString) / 100}`;
@@ -49,23 +49,41 @@ const negative = () => {
   calculatorInput.textContent = currentNumString;
 };
 
+const doFlag = () => {
+  switch (flag) {
+    case 'plus':
+      savedNumString += +currentNumString;
+      currentNumString = '';
+      calculatorInput.textContent = `${savedNumString}`;
+      break;
+    case 'minus':
+      savedNumString -= +currentNumString;
+      currentNumString = '';
+      calculatorInput.textContent = `${savedNumString}`;
+      break;
+  }
+};
+
 const plus = () => {
-  savedNumString += +currentNumString;
-  if (flag) {
-    currentNumString = '';
-    calculatorInput.textContent = `${savedNumString}`;
+  console.log(flag, currentNumString);
+
+  if (flag && currentNumString) {
+    doFlag();
   } else {
+    savedNumString = +currentNumString;
     currentNumString = '';
     calculatorInput.textContent = '0';
   }
   flag = 'plus';
 };
+
 const minus = () => {
-  savedNumString -= +currentNumString;
-  if (flag) {
-    currentNumString = '';
-    calculatorInput.textContent = `${savedNumString}`;
+  console.log(flag, currentNumString, savedNumString);
+
+  if (flag && currentNumString) {
+    doFlag();
   } else {
+    savedNumString = currentNumString * -1;
     currentNumString = '';
     calculatorInput.textContent = '0';
   }
@@ -83,7 +101,8 @@ calculatorInput.addEventListener('focusout', () => {
 window.addEventListener('keydown', e => {
   console.log(e);
 
-  if (+e.key) {
+  if (+e.key || e.key === '0') {
+    if (!currentNumString && e.key === '0') return;
     currentNumString += e.key;
     calculatorInput.textContent = currentNumString;
   }
