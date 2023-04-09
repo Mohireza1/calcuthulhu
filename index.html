@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,300,0,0"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dosis:wght@300;400&family=PT+Sans+Narrow&family=Roboto+Condensed:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="script.js" defer></script>
+    <title>Calcuthulhu</title>
+  </head>
+  <body>
+    <header>
+      <div class="sidebar">
+        <butotn class="sidebar__close">&times;</butotn>
+        <h1 class="logo">
+          Calcuthulhu
+          <!-- <img src="logo.png" alt="Calcuthulhu" class="logo__image" /> -->
+        </h1>
+        <nav class="sidebar__tabs">
+          <button class="sidebar__button-group sidebar__button-group--active">
+            <p class="button__text">
+              <span class="material-symbols-outlined"> calculate </span
+              >Calculator
+            </p>
+          </button>
+          <button class="sidebar__button-group">
+            <p class="button__text">
+              <span class="material-symbols-outlined"> menu_book </span>Recipe
+            </p>
+          </button>
+          <button class="sidebar__button-group">
+            <p class="button__text">
+              <span class="material-symbols-outlined"> straighten </span
+              >Converter
+            </p>
+          </button>
+          <button class="sidebar__button-group">
+            <p class="button__text">
+              <span class="material-symbols-outlined"> paid </span>Currency
+            </p>
+          </button>
+        </nav>
+        <p class="copyright">Copyright © 2023 Mohireza; All rights reserved</p>
+      </div>
+    </header>
+    <main>
+      <button class="button--menu">&equiv;</button>
+      <section class="calc--main">
+        <div class="calculator">
+          <div class="calculator__display">
+            <div class="calculator__history"></div>
+            <div class="calculator__input">0</div>
+          </div>
+          <button
+            class="calculator__button calculator__button--side calculator__button--back"
+          >
+            &leftarrow;
+          </button>
+          <button
+            class="calculator__button calculator__button--side calculator__button--percent"
+            data-value="%"
+          >
+            %
+          </button>
+          <button
+            class="calculator__button calculator__button--side calculator__button--negative"
+          >
+            +/-
+          </button>
+          <button
+            class="calculator__button calculator__button--7"
+            data-value="7"
+          >
+            7
+          </button>
+          <button
+            class="calculator__button calculator__button--8"
+            data-value="8"
+          >
+            8
+          </button>
+          <button
+            class="calculator__button calculator__button--9"
+            data-value="9"
+          >
+            9
+          </button>
+          <button
+            class="calculator__button calculator__button--4"
+            data-value="4"
+          >
+            4
+          </button>
+          <button
+            class="calculator__button calculator__button--5"
+            data-value="5"
+          >
+            5
+          </button>
+          <button
+            class="calculator__button calculator__button--6"
+            data-value="6"
+          >
+            6
+          </button>
+          <button
+            class="calculator__button calculator__button--1"
+            data-value="1"
+          >
+            1
+          </button>
+          <button
+            class="calculator__button calculator__button--2"
+            data-value="2"
+          >
+            2
+          </button>
+          <button
+            class="calculator__button calculator__button--3"
+            data-value="3"
+          >
+            3
+          </button>
+          <button
+            class="calculator__button calculator__button--side calculator__button--c"
+          >
+            c
+          </button>
+          <button
+            class="calculator__button calculator__button--0"
+            data-value="0"
+          >
+            0
+          </button>
+          <button
+            class="calculator__button calculator__button--side calculator__button--dot"
+            data-value="."
+          >
+            .
+          </button>
+          <button
+            class="calculator__button calculator__button--side calculator__button--equal"
+          >
+            =
+          </button>
+          <button
+            class="calculator__button calculator__button--side calculator__button--plus"
+            data-value="+"
+          >
+            +
+          </button>
+          <button
+            class="calculator__button calculator__button--side calculator__button--minus"
+            data-value="-"
+          >
+            -
+          </button>
+          <button
+            class="calculator__button calculator__button--side calculator__button--times"
+            data-value="&times;"
+          >
+            &times;
+          </button>
+          <button
+            class="calculator__button calculator__button--side calculator__button--divide"
+            data-value="&divide;"
+          >
+            &divide;
+          </button>
+        </div>
+      </section>
+      <section class="calc--recipe hidden"></section>
+      <section class="calc--unit hidden">
+        <h2 class="coming-soon">Coming soon!</h2>
+      </section>
+      <section class="calc--currency hidden">
+        <h2 class="coming-soon">Coming soon!</h2>
+      </section>
+    </main>
+  </body>
+</html>
