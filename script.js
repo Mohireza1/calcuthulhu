@@ -15,6 +15,8 @@ let savedNumString = 0;
 // Functions
 
 const backspace = () => {
+  if (!currentNumString && flag) currentNumString = `${savedNumString}`;
+
   if (currentNumString[0] === '-' && currentNumString.length === 2) {
     currentNumString = '';
     calculatorInput.textContent = '0';
@@ -45,6 +47,7 @@ const percent = () => {
 };
 
 const negative = () => {
+  if (!currentNumString) return;
   currentNumString = `${currentNumString * -1}`;
   calculatorInput.textContent = currentNumString;
 };
@@ -53,21 +56,31 @@ const doFlag = () => {
   switch (flag) {
     case 'plus':
       savedNumString += +currentNumString;
-      currentNumString = '';
-      calculatorInput.textContent = `${savedNumString}`;
       break;
     case 'minus':
       savedNumString -= +currentNumString;
-      currentNumString = '';
-      calculatorInput.textContent = `${savedNumString}`;
+      break;
+    case 'times':
+      savedNumString *= +currentNumString;
+      break;
+    case 'divide':
+      if (currentNumString === '0') {
+        currentNumString = '';
+        calculatorInput.textContent = `ERR_DIVIDE_BY_ZERO`;
+        savedNumString = 0;
+        flag = false;
+        return;
+      }
+      savedNumString /= +currentNumString;
       break;
   }
+  currentNumString = '';
+  calculatorInput.textContent = `${savedNumString}`;
 };
 
 const plus = () => {
-  console.log(flag, currentNumString);
-
-  if (flag && currentNumString) {
+  if (!currentNumString) currentNumString = '0';
+  if (flag) {
     doFlag();
   } else {
     savedNumString = +currentNumString;
@@ -78,16 +91,47 @@ const plus = () => {
 };
 
 const minus = () => {
-  console.log(flag, currentNumString, savedNumString);
-
+  if (!currentNumString) currentNumString = '0';
   if (flag && currentNumString) {
     doFlag();
   } else {
-    savedNumString = currentNumString * -1;
+    savedNumString = +currentNumString;
     currentNumString = '';
     calculatorInput.textContent = '0';
   }
   flag = 'minus';
+};
+
+const times = () => {
+  if (!currentNumString) return;
+  if (flag && currentNumString) {
+    doFlag();
+  } else {
+    savedNumString = +currentNumString;
+    currentNumString = '';
+    calculatorInput.textContent = '0';
+  }
+  flag = 'times';
+};
+
+const divide = () => {
+  if (!currentNumString) currentNumString = '0';
+  if (flag && currentNumString) {
+    doFlag();
+  } else {
+    savedNumString = +currentNumString;
+    currentNumString = '';
+    calculatorInput.textContent = '0';
+  }
+  flag = 'divide';
+};
+
+const equal = () => {
+  if ((!currentNumString && !flag) || (currentNumString && !flag)) return;
+  if (!currentNumString && flag) currentNumString = '0';
+  doFlag();
+  flag = false;
+  currentNumString = `${savedNumString}`;
 };
 
 // Eventlisteners
@@ -118,18 +162,28 @@ calculator.addEventListener('click', e => {
     case cls.contains('calculator__button--back'):
       backspace();
       break;
-
     case cls.contains('calculator__button--percent'):
       percent();
       break;
     case cls.contains('calculator__button--negative'):
       negative();
       break;
+
     case cls.contains('calculator__button--plus'):
       plus();
       break;
     case cls.contains('calculator__button--minus'):
       minus();
+      break;
+    case cls.contains('calculator__button--times'):
+      times();
+      break;
+    case cls.contains('calculator__button--divide'):
+      divide();
+      break;
+
+    case cls.contains('calculator__button--equal'):
+      equal();
       break;
   }
 });
