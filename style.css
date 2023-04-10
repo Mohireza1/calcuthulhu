@@ -217,7 +217,6 @@ main {
 }
 
 .calculator__button {
-    /* font-family: var(--menu-font); */
     font-family: var(--main-font);
     font-weight: 100;
     border: none;
@@ -232,19 +231,19 @@ main {
 }
 
 .calculator__button--plus {
-    grid-area: 3/4/4/5;
+    grid-area: 6/4/7/5;
 }
 
 .calculator__button--minus {
-    grid-area: 4/4/5/5;
-}
-
-.calculator__button--times {
     grid-area: 5/4/6/5;
 }
 
+.calculator__button--times {
+    grid-area: 4/4/5/5;
+}
+
 .calculator__button--divide {
-    grid-area: 6/4/7/5;
+    grid-area: 3/4/4/5;
 }
 
 .calculator__button--0 {
