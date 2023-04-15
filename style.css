@@ -48,11 +48,6 @@ input::-webkit-inner-spin-button {
     /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-input[type=number] {
-    -moz-appearance: textfield;
-    /* Firefox */
-}
-
 /* === START FROM HERE === */
 
 .hidden {
@@ -178,6 +173,8 @@ main {
     grid-template-rows: repeat(7, 1fr);
     background-color: var(--calc-bg-clr);
     color: var(--menu-sc-clr);
+    position: relative;
+    z-index: 1;
 }
 
 .calculator__display {
@@ -206,17 +203,19 @@ main {
     align-items: center;
     font-family: var(--main-font);
     text-align: right;
-    font-size: 4.3rem;
+    font-size: 3.7rem;
     letter-spacing: 1px;
     font-weight: 500;
     width: 100%;
-    padding: 0 2rem;
+    padding: 0 1rem;
     flex: 2;
     border: none;
     outline: none;
 }
 
 .calculator__button {
+    display: grid;
+    place-items: center;
     font-family: var(--main-font);
     font-weight: 100;
     border: none;
@@ -224,30 +223,32 @@ main {
     padding: 1rem;
     color: var(--menu-sc-clr);
     background: none;
+    position: relative;
+}
+
+.calculator__button::before {
+    content: '';
+    background-color: gray;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    /* display: none; */
+    opacity: 0;
+    transition: all 0.1s;
+}
+
+.calculator__button:active::before {
+
+    opacity: 0.15;
 }
 
 .calculator__button--side {
     color: var(--calc-side-btn-clr);
-}
-
-.calculator__button--plus {
-    grid-area: 6/4/7/5;
-}
-
-.calculator__button--minus {
-    grid-area: 5/4/6/5;
-}
-
-.calculator__button--times {
-    grid-area: 4/4/5/5;
-}
-
-.calculator__button--divide {
-    grid-area: 3/4/4/5;
-}
-
-.calculator__button--0 {
-    grid-column: 2/3;
 }
 
 /* .button--menu {
