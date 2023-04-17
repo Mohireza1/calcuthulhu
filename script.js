@@ -1,11 +1,21 @@
 'use strict';
 
+/*
+*==================*
+ADD HISTORY CODES 
+AS A NEW SECTION
+BECAUSE IT IS NOT
+INTEGRABLE WITH
+THE INPUT
+*==================*
+*/
+
 // Query selectors
 
 const calculator = document.querySelector('.calculator');
 const calculatorInput = document.querySelector('.calculator__input');
-// const claculatorHistory = document.querySelector('.calculator__history');
 const calculatorButtons = [...document.querySelectorAll('.calculator__button')];
+const calculatorHistory = document.querySelector('.calculator__history');
 
 // Variables
 
@@ -18,30 +28,42 @@ let savedNumString = 0;
 const addNumber = num => {
   currentNumString += num;
   calculatorInput.textContent = currentNumString;
-  // claculatorHistory.textContent = currentNumString;
+
+  if (calculatorHistory.textContent === '0') calculatorHistory.textContent = '';
+  calculatorHistory.textContent += num;
 };
 
 const backspace = () => {
-  if (!currentNumString && flag) currentNumString = `${savedNumString}`;
-
   if (
     (currentNumString[0] === '-' && currentNumString.length === 2) ||
     (/\./gi.test(currentNumString) && currentNumString.length === 2)
   ) {
     currentNumString = '';
     calculatorInput.textContent = '0';
-    claculatorHistory.textContent = '0';
   } else if (currentNumString.length === 1) {
     currentNumString = '';
     calculatorInput.textContent = '0';
-    claculatorHistory.textContent = '0';
   } else if (!currentNumString) {
     return;
   } else {
     currentNumString = currentNumString.slice(0, currentNumString.length - 1);
     calculatorInput.textContent = currentNumString;
-    // claculatorHistory.textContent = currentNumString;
   }
+
+  if (
+    (calculatorHistory.textContent[0] === '-' &&
+      calculatorHistory.textContent.length === 2) ||
+    (/\./gi.test(calculatorHistory.textContent) &&
+      calculatorHistory.textContent.length === 2)
+  )
+    calculatorHistory.textContent = '0';
+  else if (calculatorHistory.textContent.length === 1)
+    calculatorHistory.textContent = '0';
+  else
+    calculatorHistory.textContent = calculatorHistory.textContent.slice(
+      0,
+      calculatorHistory.textContent.length - 1
+    );
 };
 
 const percent = () => {
@@ -51,13 +73,23 @@ const percent = () => {
   ) {
     currentNumString = `${(currentNumString * savedNumString) / 100}`;
     calculatorInput.textContent = currentNumString;
-    // claculatorHistory.textContent = currentNumString;
-
-    console.log(currentNumString);
+    calculatorHistory.textContent = console.log(currentNumString);
+    const historyPercent =
+      (+calculatorHistory.textContent.match(/\d+$/gi)[0] * savedNumString) /
+      100;
+    calculatorHistory.textContent = calculatorHistory.textContent.replace(
+      /\d+$/gi,
+      `${historyPercent}`
+    );
   } else if (currentNumString) {
     currentNumString = `${currentNumString / 100}`;
     calculatorInput.textContent = currentNumString;
-    claculatorHistory.textContent = currentNumString;
+    const historyPercent =
+      +calculatorHistory.textContent.match(/\d+$/gi)[0] / 100;
+    calculatorHistory.textContent = calculatorHistory.textContent.replace(
+      /\d+$/gi,
+      `${historyPercent}`
+    );
   }
 };
 
@@ -65,7 +97,22 @@ const negative = () => {
   if (!currentNumString) return;
   currentNumString = `${currentNumString * -1}`;
   calculatorInput.textContent = currentNumString;
-  claculatorHistory.textContent = currentNumString;
+
+  if (/\d-\d+$/gi.test(calculatorHistory.textContent)) {
+    calculatorHistory.textContent = calculatorHistory.textContent.replace(
+      /(?<=\d)-(?=\d+$)/gi,
+      '+'
+    );
+  } else if (/\d\+\d+$/gi.test(calculatorHistory.textContent)) {
+    calculatorHistory.textContent = calculatorHistory.textContent.replace(
+      /(?<=\d)\+(?=\d+$)/gi,
+      '-'
+    );
+  } else {
+    calculatorHistory.textContent = `${
+      calculatorHistory.textContent.match(/^-?\d+$/gi)[0] * -1
+    }`;
+  }
 };
 
 const doFlag = () => {
@@ -82,7 +129,8 @@ const doFlag = () => {
     case 'divide':
       if (currentNumString === '0') {
         currentNumString = '';
-        calculatorInput.textContent = `ERR_DIVIDE_BY_ZERO`;
+        calculatorInput.textContent = 'ERR_DIVIDE_BY_ZERO';
+        calculatorHistory.textContent = 'ERR_DIVIDE_BY_ZERO';
         savedNumString = 0;
         flag = false;
         return;
@@ -92,20 +140,19 @@ const doFlag = () => {
   }
   currentNumString = '';
   calculatorInput.textContent = `${savedNumString}`;
+  calculatorHistory.textContent += `=${savedNumString}`;
 };
 
 const plus = () => {
   if (flag && !currentNumString) {
+    console.log(/[\+\-\×\÷]$/gi.test(calculatorHistory.textContent));
+
     flag = 'plus';
-    if (
-      claculatorHistory.textContent[claculatorHistory.textContent.length] !==
-      '+'
-    ) {
-      claculatorHistory.textContent =
-        claculatorHistory.textContent.slice(
-          0,
-          claculatorHistory.textContent.length - 1
-        ) + '+';
+    if (/[\+\-\×\÷]$/gi.test(calculatorHistory.textContent)) {
+      calculatorHistory.textContent = calculatorHistory.textContent.replace(
+        /[\+\-\×\÷]$/gi,
+        '+'
+      );
     }
     return;
   }
@@ -118,23 +165,21 @@ const plus = () => {
     calculatorInput.textContent = '0';
   }
   flag = 'plus';
-  claculatorHistory.textContent += '+';
+
+  calculatorHistory.textContent += '+';
 };
 
 const minus = () => {
   if (flag && !currentNumString) {
-    flag = 'miuns';
-    if (
-      claculatorHistory.textContent[claculatorHistory.textContent.length] !==
-      '-'
-    ) {
-      claculatorHistory.textContent =
-        claculatorHistory.textContent.slice(
-          0,
-          claculatorHistory.textContent.length - 1
-        ) + '-';
-    }
+    console.log(/[\+\-\×\÷]$/gi.test(calculatorHistory.textContent));
 
+    flag = 'miuns';
+    if (/[\+\-\×\÷]$/gi.test(calculatorHistory.textContent)) {
+      calculatorHistory.textContent = calculatorHistory.textContent.replace(
+        /[\+\-\×\÷]$/gi,
+        '-'
+      );
+    }
     return;
   }
   if (!currentNumString) currentNumString = '0';
@@ -146,11 +191,19 @@ const minus = () => {
     calculatorInput.textContent = '0';
   }
   flag = 'minus';
+
+  calculatorHistory.textContent += '-';
 };
 
 const times = () => {
   if (flag && !currentNumString) {
     flag = 'times';
+    if (/[\+\-\×\÷]$/gi.test(calculatorHistory.textContent)) {
+      calculatorHistory.textContent = calculatorHistory.textContent.replace(
+        /[\+\-\×\÷]$/gi,
+        '×'
+      );
+    }
     return;
   }
   if (!currentNumString) return;
@@ -162,11 +215,19 @@ const times = () => {
     calculatorInput.textContent = '0';
   }
   flag = 'times';
+
+  calculatorHistory.textContent += '×';
 };
 
 const divide = () => {
   if (flag && !currentNumString) {
     flag = 'divide';
+    if (/[\+\-\×\÷]$/gi.test(calculatorHistory.textContent)) {
+      calculatorHistory.textContent = calculatorHistory.textContent.replace(
+        /[\+\-\×\÷]$/gi,
+        '÷'
+      );
+    }
     return;
   }
   if (!currentNumString) currentNumString = '0';
@@ -178,6 +239,8 @@ const divide = () => {
     calculatorInput.textContent = '0';
   }
   flag = 'divide';
+
+  calculatorHistory.textContent += '÷';
 };
 
 const equal = () => {
@@ -192,11 +255,22 @@ const dot = () => {
   if (!currentNumString) currentNumString = '0.';
   else if (!/\./gi.test(currentNumString)) currentNumString += '.';
   calculatorInput.textContent = currentNumString;
+
+  if (calculatorHistory.textContent === '0') {
+    calculatorHistory.textContent = '0.';
+  } else if (
+    /(?<=[\+\÷\×\-])\d+$/gi.test(calculatorHistory.textContent) ||
+    /^\d*$/gi.test(calculatorHistory.textContent)
+  ) {
+    calculatorHistory.textContent += '.';
+  } else if (/[\+\÷\×\-]$/gi.test(calculatorHistory.textContent))
+    calculatorHistory.textContent += '0.';
 };
 
 const clear = () => {
   currentNumString = '';
   calculatorInput.textContent = `0`;
+  calculatorHistory.textContent = '0';
   savedNumString = 0;
   flag = false;
 };
@@ -208,7 +282,14 @@ const numberClick = e => {
 
 const preventFloatFlood = () => {
   if (/\.\d{9,}/gi.test(currentNumString)) {
-    currentNumString = currentNumString.match(/(\d+\.\d{0,9})/gi);
+    currentNumString = currentNumString.match(/(\d+\.\d{0,9})/gi)[0];
+    calculatorInput.textContent = currentNumString;
+  }
+  if (/(?<=\..*)(\d)\1{6,}\d?$/gi.test(currentNumString)) {
+    currentNumString = currentNumString.replace(
+      /(?<=\..*)(\d)\1{6,}\d?$/gi,
+      '$1'
+    );
     calculatorInput.textContent = currentNumString;
   }
 };
@@ -284,17 +365,3 @@ calculator.addEventListener('click', e => {
   preventFloatFlood();
   characterLimit();
 });
-
-/*
-  insert number
-    number is shown in gray
-    number is saved
-
-    select one of the four (sum)
-    function flag = sum
-
-    another number inserted
-    
-    if (another function) the numbers are mixed and the final result is saved and gray and flag is function
-    if (equals) the numbers are mixed and the final result is black and saved and flag is fasle
-    */
