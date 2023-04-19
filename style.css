@@ -7,7 +7,7 @@
 }
 
 :root {
-    --menu-pr-clr: #12101D;
+    --menu-pr-clr: #111118;
     --menu-sc-clr: #F2F8F6;
     --calc-bg-clr: #111118;
     --calc-side-btn-clr: #f2f8f67c;
@@ -62,7 +62,7 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 100;
     min-height: 100%;
     width: 70%;
     transition: all 0.5s ease-out;
@@ -70,6 +70,11 @@ header {
     /* box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.447); */
     /* border-radius: 0 10px 10px 0; */
 
+}
+
+.header--open {
+    margin-left: 0;
+    box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.447);
 }
 
 .sidebar {
@@ -92,6 +97,13 @@ header {
     right: 1rem;
     top: -1rem;
     font-size: 4rem;
+    cursor: pointer;
+}
+
+.sidebar__close:hover,
+.button--menu:hover {
+    transition: all 0.1s;
+    opacity: 0.7;
 }
 
 .sidebar__tabs {
@@ -110,6 +122,7 @@ header {
     color: var(--menu-sc-clr);
     padding: 1rem 2rem;
     border-radius: 0 20px 20px 0;
+    cursor: pointer;
 }
 
 .button__text {
@@ -155,6 +168,9 @@ main {
     outline: none;
     font-size: 3rem;
     font-weight: 100;
+    z-index: 99;
+    cursor: pointer;
+
 }
 
 .calc--main {
@@ -224,6 +240,7 @@ main {
     color: var(--menu-sc-clr);
     background: none;
     position: relative;
+    cursor: pointer;
 }
 
 .calculator__button::before {
@@ -249,6 +266,38 @@ main {
 
 .calculator__button--side {
     color: var(--calc-side-btn-clr);
+}
+
+@media only screen and (min-width:1210px) {
+    body {
+        background: rgb(11, 11, 15);
+        background: linear-gradient(315deg, rgba(11, 11, 15, 1) 0%, rgba(31, 31, 37, 1) 100%);
+    }
+
+    header {
+        position: relative;
+        margin-left: -16%;
+        width: 16%;
+    }
+
+    .button--menu {
+        color: var(--menu-sc-clr)
+    }
+
+    .calculator {
+        margin: auto;
+        width: 42%;
+        border-radius: 20px;
+        -webkit-box-shadow: 9px 12px 12px -3px rgba(0, 0, 0, 0.45);
+        box-shadow: 9px 12px 12px -3px rgba(0, 0, 0, 0.45);
+    }
+
+    .calculator__display {
+        border-radius: 20px 20px 0 0;
+        padding: 1rem;
+
+    }
+
 }
 
 /* .button--menu {

@@ -17,6 +17,9 @@ const calculatorInput = document.querySelector('.calculator__input');
 const calculatorButtons = [...document.querySelectorAll('.calculator__button')];
 const calculatorHistory = document.querySelector('.calculator__history');
 
+const buttonMenu = document.querySelector('.button--menu');
+const sidebarClose = document.querySelector('.sidebar__close');
+
 // Variables
 
 let flag = false;
@@ -278,6 +281,8 @@ const clear = () => {
 const numberClick = e => {
   currentNumString += e.target.dataset.value;
   calculatorInput.textContent = currentNumString;
+  if (calculatorHistory.textContent === '0') calculatorHistory.textContent = '';
+  calculatorHistory.textContent += e.target.dataset.value;
 };
 
 const preventFloatFlood = () => {
@@ -302,6 +307,13 @@ const characterLimit = () => {
 };
 
 // Eventlisteners
+
+buttonMenu.addEventListener('click', () =>
+  document.querySelector('header').classList.add('header--open')
+);
+sidebarClose.addEventListener('click', () =>
+  document.querySelector('header').classList.remove('header--open')
+);
 
 window.addEventListener('keydown', e => {
   console.log(e);
